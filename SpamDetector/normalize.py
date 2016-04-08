@@ -1,9 +1,9 @@
 import csv
-
-from math import sqrt
 import sys
+from math import sqrt
 
 class Normalizer(object):
+
     def load_csv(self):
         file = "../../../../../datasets/spambase.csv"
         data_file = open(file, 'r')
