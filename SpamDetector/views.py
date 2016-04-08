@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.shortcuts import render
 from SpamDetector.forms import UploadFileForm
-from SpamDetector.function import Normalizer
+from SpamDetector.normalize import Normalizer
 from django.core.files.uploadhandler import FileUploadHandler
 
 
