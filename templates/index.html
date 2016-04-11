@@ -1,15 +1,25 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<style>
-
-</style>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>K-Means</title>
+</head>
 <body>
-<h1>Graph</h1>
-<form action="http://localhost:8000" method="post">
+
+<!-- Upload form. Note enctype attribute! -->
+<form action="{% url 'index' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.file}}
-    <input type="submit">
+    <p>{{ form.non_field_errors }}</p>
+    <p>{{ form.docfile.label_tag }} {{ form.docfile.help_text }}</p>
+    <p>
+        {{ form.docfile.errors }}
+        {{ form.docfile }}
+    </p>
+    <p><input type="submit" value="Envoyer" /></p>
 </form>
+</body>
+</html>
+
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script>
 
@@ -239,5 +249,3 @@ init(); draw();*/
 
 
 </script>
-</body>
-</html>
