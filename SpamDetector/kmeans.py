@@ -1,6 +1,7 @@
 import csv
 import random
 import math
+import os
 
 class KMeanClusterer(object) :
     def __init__(self,k,datacsv, champs):
@@ -14,7 +15,7 @@ class KMeanClusterer(object) :
             for i in champs:
                 col=float(l[i])
                 cols.append(col)
-            cols.append(l[57])
+            '''cols.append(l[57]'''
             if len(cols)!=0:
                 tab.append(cols)
         self.myTab=tab
@@ -123,8 +124,9 @@ class Cluster(object) :
 
 if __name__ == '__main__':
     k = 2
-    datafile = "../../../../../datasets/spambase.csv"
-    champs = [3, 57]
+    workpath = os.path.dirname(os.path.abspath(__file__)) #Returns the Path your .py file is in
+    datafile = os.path.join(workpath, 'dataset/spambase.data.txt')
+    champs = [5, 15, 45]
     kMeanClusterer = KMeanClusterer(k, datafile, champs)
     kMeanClusterer.assignement()
 

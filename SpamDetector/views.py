@@ -1,9 +1,11 @@
+from Carbon.Windows import false
 from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from .forms import DocumentForm
 from normalize import Normalizer
+from kmeans import KMeanClusterer
 import os
 
 
@@ -55,10 +57,27 @@ def index(request):
                     line.append(stats[1][j][i])
                 new_stats.append(line)
 
-            return render(request, 'stats.html', {'stats': new_stats,'spam': stats[0], 'no_spam': no_spam, 'nb_item': 58, 'nb_col': 4})
+            return render(request, 'stats.html', {'stats': new_stats,'spam': stats[0], 'no_spam': no_spam })
     else:
         form = DocumentForm() # A empty, unbound form
         return render(request, 'index.html', {'form': form})
+
+def kmeans(request):
+    k = 3
+    workpath = os.path.dirname(os.path.abspath(__file__)) #Returns the Path your .py file is in
+    datafile = os.path.join(workpath, 'dataset/spambase.data.txt')
+    champs = [5, 15, 45]
+    kMeanClusterer = KMeanClusterer(k, datafile, champs)
+    kMeanClusterer.assignement()
+
+    centroids = []
+    clusters = []
+    for i in range(len(champs)):
+        centroids.append(kMeanClusterer.getCluster(i).getCentroid())
+    for i in range(len(champs)):
+        clusters.append(kMeanClusterer.getCluster(i).getPoints())
+
+    return render(request, 'kmeans.html', {'k': k, 'centroids': centroids, 'clusters': clusters})
 
 
 def handle_uploaded_file(f, file_name):
