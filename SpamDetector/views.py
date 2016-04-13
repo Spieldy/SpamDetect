@@ -66,7 +66,7 @@ def kmeans(request):
     k = 3
     workpath = os.path.dirname(os.path.abspath(__file__)) #Returns the Path your .py file is in
     datafile = os.path.join(workpath, 'dataset/spambase.data.txt')
-    champs = [5, 15, 45]
+    champs = [25, 15]
     kMeanClusterer = KMeanClusterer(k, datafile, champs)
     kMeanClusterer.assignement()
 
@@ -77,7 +77,7 @@ def kmeans(request):
     for i in range(len(champs)):
         clusters.append(kMeanClusterer.getCluster(i).getPoints())
 
-    return render(request, 'kmeans.html', {'k': k, 'centroids': centroids, 'clusters': clusters})
+    return render(request, 'kmeans.html', {'k': len(champs), 'centroids': centroids, 'clusters': clusters})
 
 
 def handle_uploaded_file(f, file_name):
