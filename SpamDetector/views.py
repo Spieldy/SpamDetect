@@ -63,7 +63,7 @@ def index(request):
         return render(request, 'index.html', {'form': form})
 
 def kmeans(request):
-    k = 3
+    k = 2
     workpath = os.path.dirname(os.path.abspath(__file__)) #Returns the Path your .py file is in
     datafile = os.path.join(workpath, 'dataset/spambase.data.txt')
     champs = [25, 15]
@@ -72,9 +72,9 @@ def kmeans(request):
 
     centroids = []
     clusters = []
-    for i in range(len(champs)):
+    for i in range(k):
         centroids.append(kMeanClusterer.getCluster(i).getCentroid())
-    for i in range(len(champs)):
+    for i in range(k):
         clusters.append(kMeanClusterer.getCluster(i).getPoints())
 
     return render(request, 'kmeans.html', {'k': len(champs), 'centroids': centroids, 'clusters': clusters})
