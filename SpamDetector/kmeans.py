@@ -2,6 +2,7 @@ import csv
 import random
 import math
 import os
+from SpamDetector.normalize import Normalizer
 
 class KMeanClusterer(object) :
     def __init__(self,k,datacsv, champs):
@@ -92,7 +93,6 @@ class KMeanClusterer(object) :
             self.assignement()
 
 
-
 class Cluster(object) :
 
     def __init__(self,c):
@@ -121,16 +121,32 @@ class Cluster(object) :
     def getPoints(self):
         return self.points
 
+    def normalizeCentroid(self, min_range, max_range, length):
+        norm = Normalizer()
+        mins = norm.min_data_col(self.getPoints(), length)
+        maxs = norm.max_data_col(self.getPoints(), length)
+        centroid_normalized = []
+
+        for i in range(length):
+            centroid_normalized.append(((float(self.getCentroid()[i])-mins[i])/(maxs[i]-mins[i]))*(max_range-min_range)+min_range)
+
+        return centroid_normalized
+
 
 if __name__ == '__main__':
     k = 2
+    norm = Normalizer()
     workpath = os.path.dirname(os.path.abspath(__file__)) #Returns the Path your .py file is in
     datafile = os.path.join(workpath, 'dataset/spambase.data.txt')
-    champs = [5, 15, 45]
+    champs = [5, 15]
     kMeanClusterer = KMeanClusterer(k, datafile, champs)
     kMeanClusterer.assignement()
 
     for i in range(k):
         print kMeanClusterer.getCluster(i).getCentroid()
+        print kMeanClusterer.getCluster(i).normalizeCentroid(0.0, 1.0, len(champs))
+        print ' '
     for i in range(k):
         print kMeanClusterer.getCluster(i).getPoints()
+        print norm.normalization(kMeanClusterer.getCluster(i).getPoints(), 0.0, 1.0, len(champs))
+        print ' '

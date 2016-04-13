@@ -12,28 +12,28 @@ class Normalizer(object):
         return data
 
     @staticmethod
-    def min_data_col(data):
-        mins = [float(sys.maxsize)]*58
-        for k in range(58):
+    def min_data_col(data, length):
+        mins = [float(sys.maxsize)]*length
+        for k in range(length):
             for d in data:
                 if(mins[k] > float(d[k])):
                     mins[k] = float(d[k])
         return mins
 
     @staticmethod
-    def max_data_col(data):
-        maxs = [float(-sys.maxsize-1)]*58
-        for k in range(58):
+    def max_data_col(data, length):
+        maxs = [float(-sys.maxsize-1)]*length
+        for k in range(length):
             for d in data:
                 if(maxs[k] < float(d[k])):
                     maxs[k] = float(d[k])
         return maxs
 
-    def normalization(self, data_save, min_range, max_range):
-        mins = self.min_data_col(data_save)
-        maxs = self.max_data_col(data_save)
+    def normalization(self, data_save, min_range, max_range, length):
+        mins = self.min_data_col(data_save, length)
+        maxs = self.max_data_col(data_save, length)
 
-        for i in range(58):
+        for i in range(length):
             for nb in range(len(data_save)):
                 data_save[nb][i] = ((float(data_save[nb][i])-mins[i])/(maxs[i]-mins[i]))*(max_range-min_range)+min_range
 
@@ -132,7 +132,7 @@ if __name__ == '__main__':
         except IndexError:
             pass
 
-    data_normalized = norm.normalization(data_save, 0.0, 1.0)
+    data_normalized = norm.normalization(data_save, 0.0, 1.0, 58)
     stats = norm.statistics(data_normalized, 58)
 
     print("SPAM")
