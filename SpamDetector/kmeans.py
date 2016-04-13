@@ -15,7 +15,7 @@ class KMeanClusterer(object) :
             for i in champs:
                 col=float(l[i])
                 cols.append(col)
-            '''cols.append(l[57]'''
+            #cols.append(l[57])
             if len(cols)!=0:
                 tab.append(cols)
         self.myTab=tab
@@ -130,7 +130,7 @@ if __name__ == '__main__':
     kMeanClusterer = KMeanClusterer(k, datafile, champs)
     kMeanClusterer.assignement()
 
-    for i in range(len(champs)):
+    for i in range(k):
         print kMeanClusterer.getCluster(i).getCentroid()
-    for i in range(len(champs)):
+    for i in range(k):
         print kMeanClusterer.getCluster(i).getPoints()
