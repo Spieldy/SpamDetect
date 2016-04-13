@@ -1,11 +1,12 @@
 import csv
 import sys
+import os
 from math import sqrt
 
 class Normalizer(object):
 
-    def load_csv(self):
-        file = "../../../../../datasets/spambase.csv"
+    def load_csv(self, data_path):
+        file = data_path
         data_file = open(file, 'r')
         data = csv.reader(data_file)
         return data
@@ -102,26 +103,20 @@ class Normalizer(object):
             std_nospam[i] = sqrt((1/nb_data)*std_nospam[i])
 
         for i in range(nb_col):
-            stats_spam[0].append(self.truncate(min_spam[i], 5))
-            stats_spam[1].append(self.truncate(max_spam[i], 5))
-            stats_spam[2].append(self.truncate(avg_spam[i], 5))
-            stats_spam[3].append(self.truncate(std_spam[i], 5))
+            stats_spam[0].append("%.5f" % min_spam[i])
+            stats_spam[1].append("%.5f" % max_spam[i])
+            stats_spam[2].append("%.5f" % avg_spam[i])
+            stats_spam[3].append("%.5f" % std_spam[i])
 
-            stats_nospam[0].append(self.truncate(min_nospam[i], 5))
-            stats_nospam[1].append(self.truncate(max_nospam[i], 5))
-            stats_nospam[2].append(self.truncate(avg_nospam[i], 5))
-            stats_nospam[3].append(self.truncate(std_nospam[i], 5))
+            stats_nospam[0].append("%.5f" % min_nospam[i])
+            stats_nospam[1].append("%.5f" % max_nospam[i])
+            stats_nospam[2].append("%.5f" % avg_nospam[i])
+            stats_nospam[3].append("%.5f" % std_nospam[i])
 
         stats.append(stats_spam)
         stats.append(stats_nospam)
 
         return stats
-
-    def truncate(self, f, n):
-        #tronque un float f a n decimales sans arrondir
-        s = '%.5f' % f
-        i, d = s.partition('.')
-        return '.'.join([i, (d+'0'*n)[:n]])
 
     def __init__(self):
         pass
@@ -129,8 +124,8 @@ class Normalizer(object):
 if __name__ == '__main__':
     norm = Normalizer()
     data_save = []
-    data = norm.load_csv()
-
+    workpath = os.path.dirname(os.path.abspath(__file__)) #Returns the Path your .py file is in
+    data = norm.load_csv(os.path.join(workpath, 'dataset/spambase.data.txt'))
     for line in data:
         try:
             data_save.append(line)
@@ -140,11 +135,10 @@ if __name__ == '__main__':
     data_normalized = norm.normalization(data_save, 0.0, 1.0)
     stats = norm.statistics(data_normalized, 58)
 
-    '''
     print("SPAM")
     for s in stats[0]:
         print s
     print("NO SPAM")
     for s in stats[1]:
         print s
-    '''
+
