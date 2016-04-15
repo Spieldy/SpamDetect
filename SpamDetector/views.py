@@ -67,16 +67,19 @@ def kmeans(request):
     norm = Normalizer()
     workpath = os.path.dirname(os.path.abspath(__file__)) #Returns the Path your .py file is in
     datafile = os.path.join(workpath, 'dataset/spambase.data.txt')
-    champs = [3, 15, 56]
+    champs = [3, 57]
+    datafile = norm.normalization(datafile, 0.0, 1.0, 58)
     kMeanClusterer = KMeanClusterer(k, datafile, champs)
     kMeanClusterer.assignement()
 
     centroids = []
     clusters = []
     for i in range(k):
-        centroids.append(kMeanClusterer.getCluster(i).normalizeCentroid(0.0, 1.0, len(champs)))
+        centroids.append(kMeanClusterer.getCluster(i).getCentroid())
+        #centroids.append(kMeanClusterer.getCluster(i).normalizeCentroid(0.0, 1.0, len(champs)))
     for i in range(k):
-        clusters.append(norm.normalization(kMeanClusterer.getCluster(i).getPoints(), 0.0, 1.0, len(champs)))
+        clusters.append(kMeanClusterer.getCluster(i).getPoints())
+        #clusters.append(norm.normalization(kMeanClusterer.getCluster(i).getPoints(), 0.0, 1.0, len(champs)))
 
     return render(request, 'kmeans.html', {'k': len(champs), 'centroids': centroids, 'clusters': clusters})
 
