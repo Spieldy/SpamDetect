@@ -1,5 +1,4 @@
-from Carbon.Windows import false
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -28,7 +27,7 @@ def index(request):
                 except IndexError:
                     pass
 
-            data_normalized = norm.normalization(data_save, 0.0, 1.0)
+            data_normalized = norm.normalization(data_save, 0.0, 1.0, 58)
             stats = norm.statistics(data_normalized, 58)
 
             spam = []
@@ -67,16 +66,19 @@ def kmeans(request):
     norm = Normalizer()
     workpath = os.path.dirname(os.path.abspath(__file__)) #Returns the Path your .py file is in
     datafile = os.path.join(workpath, 'dataset/spambase.data.txt')
-    champs = [25, 15]
+    champs = [3, 15, 56]
+    #datafile = norm.normalization(datafile, 0.0, 1.0, 58)
     kMeanClusterer = KMeanClusterer(k, datafile, champs)
     kMeanClusterer.assignement()
 
     centroids = []
     clusters = []
     for i in range(k):
-        centroids.append(kMeanClusterer.getCluster(i).normalizeCentroid(0.0, 1.0, len(champs)))
+        centroids.append(kMeanClusterer.getCluster(i).getCentroid())
+        #centroids.append(kMeanClusterer.getCluster(i).normalizeCentroid(0.0, 1.0, len(champs)))
     for i in range(k):
-        clusters.append(norm.normalization(kMeanClusterer.getCluster(i).getPoints(), 0.0, 1.0, len(champs)))
+        clusters.append(kMeanClusterer.getCluster(i).getPoints())
+        #clusters.append(norm.normalization(kMeanClusterer.getCluster(i).getPoints(), 0.0, 1.0, len(champs)))
 
     return render(request, 'kmeans.html', {'k': len(champs), 'centroids': centroids, 'clusters': clusters})
 
