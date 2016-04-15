@@ -28,7 +28,7 @@ def index(request):
                 except IndexError:
                     pass
 
-            data_normalized = norm.normalization(data_save, 0.0, 1.0)
+            data_normalized = norm.normalization(data_save, 0.0, 1.0, 58)
             stats = norm.statistics(data_normalized, 58)
 
             spam = []
@@ -67,7 +67,7 @@ def kmeans(request):
     #norm = Normalizer()
     workpath = os.path.dirname(os.path.abspath(__file__)) #Returns the Path your .py file is in
     datafile = os.path.join(workpath, 'dataset/spambase.data.txt')
-    champs = [3, 56]
+    champs = [15, 25, 45]
     kMeanClusterer = KMeanClusterer(k, datafile, champs)
     kMeanClusterer.assignement()
 
