@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from Carbon.Windows import false
+from django.shortcuts import render_to_response, render
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -27,7 +28,7 @@ def index(request):
                 except IndexError:
                     pass
 
-            data_normalized = norm.normalization(data_save, 0.0, 1.0, 58)
+            data_normalized = norm.normalization(data_save, 0.0, 1.0)
             stats = norm.statistics(data_normalized, 58)
 
             spam = []
@@ -63,11 +64,10 @@ def index(request):
 
 def kmeans(request):
     k = 2
-    norm = Normalizer()
+    #norm = Normalizer()
     workpath = os.path.dirname(os.path.abspath(__file__)) #Returns the Path your .py file is in
     datafile = os.path.join(workpath, 'dataset/spambase.data.txt')
-    champs = [3, 15, 56]
-    #datafile = norm.normalization(datafile, 0.0, 1.0, 58)
+    champs = [3, 56]
     kMeanClusterer = KMeanClusterer(k, datafile, champs)
     kMeanClusterer.assignement()
 
