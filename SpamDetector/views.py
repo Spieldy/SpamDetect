@@ -1,7 +1,9 @@
 from Carbon.Windows import false
-from django.shortcuts import render_to_response, render
+from django.template import loader
+from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
 from django.template import RequestContext
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 from django.core.urlresolvers import reverse
 from .forms import DocumentForm
 from normalize import Normalizer
@@ -67,21 +69,32 @@ def kmeans(request):
     #norm = Normalizer()
     workpath = os.path.dirname(os.path.abspath(__file__)) #Returns the Path your .py file is in
     datafile = os.path.join(workpath, 'dataset/spambase.data.txt')
-    champs = [15, 25, 45]
-    kMeanClusterer = KMeanClusterer(k, datafile, champs)
-    kMeanClusterer.assignement()
+    champs = []
+    if request.method == 'GET' and request.is_ajax():
+        if(request.GET['nb'] == '3'):
+            champs.append(int(request.GET['champs1']))
+            champs.append(int(request.GET['champs2']))
+            champs.append(int(request.GET['champs3']))
+        else:
+            champs.append(int(request.GET['champs1']))
+            champs.append(int(request.GET['champs2']))
+        kMeanClusterer = KMeanClusterer(k, datafile, champs)
+        kMeanClusterer.assignement()
+        centroids = []
+        clusters = []
+        for i in range(k):
+            centroids.append(kMeanClusterer.getCluster(i).getCentroid())
+            #centroids.append(kMeanClusterer.getCluster(i).normalizeCentroid(0.0, 1.0, len(champs)))
+        for i in range(k):
+            clusters.append(kMeanClusterer.getCluster(i).getPoints())
+            #clusters.append(norm.normalization(kMeanClusterer.getCluster(i).getPoints(), 0.0, 1.0, len(champs)))
 
-    centroids = []
-    clusters = []
-    for i in range(k):
-        centroids.append(kMeanClusterer.getCluster(i).getCentroid())
-        #centroids.append(kMeanClusterer.getCluster(i).normalizeCentroid(0.0, 1.0, len(champs)))
-    for i in range(k):
-        clusters.append(kMeanClusterer.getCluster(i).getPoints())
-        #clusters.append(norm.normalization(kMeanClusterer.getCluster(i).getPoints(), 0.0, 1.0, len(champs)))
-
-    return render(request, 'kmeans.html', {'k': len(champs), 'centroids': centroids, 'clusters': clusters})
-
+        html = render_to_string('kmeans.html', {'k': len(champs), 'centroids': centroids, 'clusters': clusters})
+        return HttpResponse(html)
+        #return render(request, 'kmeans.html', {'k': len(champs), 'centroids': centroids, 'clusters': clusters})
+    else:
+        form = DocumentForm() # A empty, unbound form
+        return redirect('index.html', {'form': form })
 
 def handle_uploaded_file(f, file_name):
     workpath = os.path.dirname(os.path.abspath(__file__)) #Returns the Path your .py file is in

@@ -1,25 +1,9 @@
-<!DOCTYPE html>
 
-<head>
-    <meta charset="UTF-8">
-    <title>Kmeans</title>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/highcharts-3d.js"></script>
-    <script src="https://code.highcharts.com/modules/data.js"></script>
-    <script src="https://code.highcharts.com/modules/data.js"></script>
-</head>
-
-<body onload="graph({{ k }},{{ centroids }}, {{ clusters }})">
-    <div id="container" style=" height: 500px;
+<div onload="graph({{ k }},{{ centroids }}, {{ clusters }})" id="container" style=" height: 500px;
     min-width: 400px;
     max-width: 800px;
     margin: 0 auto;">
-    </div>
-</body>
-</html>
+</div>
 
 <script>
     function graph(k, centroids, clusters) {
@@ -62,10 +46,10 @@
                         }
                     },
                     title: {
-                        text: 'Draggable box'
+                        text: 'Clusters en fonction des champs séléctionnés'
                     },
                     subtitle: {
-                        text: 'Click and drag the plot area to rotate in space'
+                        text: 'Source: Spambase Hewlett Packard'
                     },
                     plotOptions: {
                         scatter: {
@@ -143,14 +127,14 @@
                         zoomType: 'xy'
                     },
                     title: {
-                        text: 'Height Versus Weight of 507 Individuals by Gender'
+                        text: 'Clusters en fonction des champs séléctionnés'
                     },
                     subtitle: {
-                        text: 'Source: Heinz  2003'
+                        text: 'Source: Spambase Hewlett Packard'
                     },
                     xAxis: {
                         title: {
-                            enabled: true,
+                            enabled: false,
                             text: 'Height (cm)'
                         },
                         startOnTick: true,
@@ -159,6 +143,7 @@
                     },
                     yAxis: {
                         title: {
+                            enabled: false,
                             text: 'Weight (kg)'
                         }
                     },
