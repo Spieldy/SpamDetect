@@ -30,8 +30,15 @@ def index(request):
                 except IndexError:
                     pass
 
+            '''
             data_normalized = norm.normalization(data_save, 0.0, 1.0, 58)
             stats = norm.statistics(data_normalized, 58)
+            '''
+            normalizedData = norm.normalization()
+            normSplitedData = norm.split(normalizedData)
+            normNospams = normSplitedData[1]
+            normSpams = normSplitedData[0]
+            stats = norm.stats(normSpams, normNospams)
 
             spam = []
             for i in range(0, 58):
