@@ -73,16 +73,17 @@ def index(request):
 
 def kmeans(request):
     k = 2
-    #norm = Normalizer()
+    norm = Normalizer()
     workpath = os.path.dirname(os.path.abspath(__file__)) #Returns the Path your .py file is in
     datafile = os.path.join(workpath, 'dataset/spambase.data.txt')
+    norm.load_csv(os.path.join(workpath, 'dataset/spambase.data.txt'))
     champs = []
     if request.method == 'GET' and request.is_ajax():
         if(request.GET['nb'] == '3'):
             champs.append(int(request.GET['champs1']))
             champs.append(int(request.GET['champs2']))
             champs.append(int(request.GET['champs3']))
-        else:
+        elif (request.GET['nb'] == '2'):
             champs.append(int(request.GET['champs1']))
             champs.append(int(request.GET['champs2']))
         kMeanClusterer = KMeanClusterer(k, datafile, champs)
@@ -96,7 +97,13 @@ def kmeans(request):
             clusters.append(kMeanClusterer.getCluster(i).getPoints())
             #clusters.append(norm.normalization(kMeanClusterer.getCluster(i).getPoints(), 0.0, 1.0, len(champs)))
 
-        html = render_to_string('kmeans.html', {'k': len(champs), 'centroids': centroids, 'clusters': clusters})
+
+        splitedData = norm.get_splitedData(champs)
+        spams = splitedData[0]
+        nospams = splitedData[1]
+
+        html = render_to_string('kmeans.html', {'k': len(champs), 'centroids': centroids, 'clusters': clusters,
+                                                'spams': spams, 'no_spams': nospams})
         return HttpResponse(html)
         #return render(request, 'kmeans.html', {'k': len(champs), 'centroids': centroids, 'clusters': clusters})
     else:

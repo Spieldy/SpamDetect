@@ -138,7 +138,7 @@ if __name__ == '__main__':
     norm = Normalizer()
     workpath = os.path.dirname(os.path.abspath(__file__)) #Returns the Path your .py file is in
     datafile = os.path.join(workpath, 'dataset/spambase.data.txt')
-    champs = [5, 15, 17]
+    champs = [15, 25]
     kMeanClusterer = KMeanClusterer(k, datafile, champs)
     kMeanClusterer.assignement()
 

@@ -1,12 +1,13 @@
 
-<div onload="graph({{ k }},{{ centroids }}, {{ clusters }})" id="container" style=" height: 500px;
+<div onload="graph({{ k }},{{ centroids }}, {{ clusters }}, {{ spams }}, {{ no_spams }})" id="container" style=" height: 500px;
     min-width: 400px;
     max-width: 800px;
     margin: 0 auto;">
 </div>
 
 <script>
-    function graph(k, centroids, clusters) {
+    function graph(k, centroids, clusters, spams, no_spams) {
+        alert(spams);
         if (k == 3) {
             $(function () {
 
@@ -53,6 +54,9 @@
                     },
                     plotOptions: {
                         scatter: {
+                            marker: {
+                                radius: 3
+                            },
                             width: 10,
                             height: 10,
                             depth: 10
@@ -79,7 +83,7 @@
                     series: [{
                         name: 'Spam',
                         colorByPoint: false,
-                        data: clusters[0]
+                        data: clusters[0],
                     }, {
                         name: 'Non spam',
                         colorByPoint: false,
@@ -137,22 +141,17 @@
                             enabled: false,
                             text: 'Height (cm)'
                         },
-                        startOnTick: true,
-                        endOnTick: true,
-                        showLastLabel: true
                     },
                     yAxis: {
                         title: {
                             enabled: false,
                             text: 'Weight (kg)'
-                        }
+                        },
                     },
                     legend: {
                         layout: 'vertical',
-                        align: 'left',
-                        verticalAlign: 'top',
-                        x: 100,
-                        y: 70,
+                        align: 'right',
+                        verticalAlign: 'left',
                         floating: true,
                         backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
                         borderWidth: 1
@@ -160,7 +159,7 @@
                     plotOptions: {
                         scatter: {
                             marker: {
-                                radius: 5,
+                                radius: 4,
                                 states: {
                                     hover: {
                                         enabled: true,
@@ -171,7 +170,7 @@
                             states: {
                                 hover: {
                                     marker: {
-                                        enabled: false
+                                        enabled: true
                                     }
                                 }
                             },
@@ -182,18 +181,36 @@
                         }
                     },
                     series: [{
-                        name: 'Spam',
-                        color: 'rgba(223, 83, 83, .5)',
+                        name: 'Spams',
+                        color: 'rgba(178, 138, 0, 0.3)',
+                        data: spams
+                    }, {
+                        name: 'Non Spams',
+                        color: 'rgba(0, 196, 25, 0.3)',
+                        data: no_spams
+                    },{
+                        name: 'Cluster 1',
+                        color: 'rgba(178, 1, 0, 0.3)',
                         data: clusters[0]
 
                     }, {
-                        name: 'Non Spam',
-                        color: 'rgba(119, 152, 191, .5)',
+                        name: 'Cluster 2',
+                        color: 'rgba(0, 36, 255, .3)',
                         data: clusters[1]
+                    }, {
+                        name: 'Centroid 1',
+                        color: 'rgba(255, 19, 255, 1)',
+                        data: [centroids[0]]
+                    }, {
+                        name: 'Centroid 2',
+                        color: 'rgba(0, 223, 234, 1)',
+                        data: [centroids[1]]
                     }]
                 });
             });
         }
+        $('#separator-top').css('margin-top', '3em');
+        $('#extraction').css('visibility', 'visible');
     }
 
 </script>
