@@ -92,6 +92,25 @@ class KMeanClusterer(object) :
         if redo==1:
             self.assignement()
 
+    def garde_n_pproches(self, n):
+        self.myTab = []
+        n = 100.0-n
+        for c in self.cluster:
+            tab = []
+            points = []
+            nb = len(c.getPoints())*(n/100)
+            nb = round(nb, 0)
+            nb = int(nb)
+            for i in c.getPoints():
+                tab.append(self.computeDistance(i,c.getCentroid()))
+            tab.sort()
+            dist_max = tab[nb]
+            for i in c.getPoints():
+                if(self.computeDistance(i,c.getCentroid()) < dist_max):
+                    self.myTab.append(i)
+
+        self.assignement()
+
 
 class Cluster(object) :
 
