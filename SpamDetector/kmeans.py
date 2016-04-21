@@ -8,8 +8,8 @@ class KMeanClusterer(object) :
     def __init__(self,k,datacsv, champs):
         self.k = k
         self.nb_champs = len(champs)
-        iris_data=open(datacsv,'r')
-        data=csv.reader(iris_data)
+        datafile=open(datacsv,'r')
+        data=csv.reader(datafile)
         tab=[]
         for l in data:
             cols=[]
