@@ -52,7 +52,7 @@ class Test(unittest.TestCase):
             currentCluster = kMeanClusterer.getCluster(i)
             # check centroid format
             centroid = currentCluster.getCentroid()
-            expectedObsDimensions = 4
+            expectedObsDimensions = len(champs)
             self.assertTrue(len(centroid) == expectedObsDimensions,
                             "centroid expected to contain " + str(expectedObsDimensions) +
                             " data items, has actually " + str(len(centroid)))
