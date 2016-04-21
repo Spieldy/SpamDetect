@@ -34,7 +34,7 @@ class Test(unittest.TestCase):
     def testKMeanForcedInitialisation(self):
         print("** test KMean Initalisation **")
 
-        k = 3
+        k = 2
         workpath = os.path.dirname(os.path.abspath(__file__)) #Returns the Path your .py file is in
         datafile = os.path.join(workpath, 'dataset/spambase.data.txt')
         champs = [1, 2, 3]
@@ -73,7 +73,7 @@ class Test(unittest.TestCase):
         print("** test KMean assignement **")
 
         # perform initialization
-        k = 3
+        k = 2
         workpath = os.path.dirname(os.path.abspath(__file__)) #Returns the Path your .py file is in
         datafile = os.path.join(workpath, 'dataset/spambase.data.txt')
         champs = [1, 2, 3]
@@ -117,7 +117,7 @@ class Test(unittest.TestCase):
         print("** test KMean **")
 
         # perform initialization
-        k = 3
+        k = 2
         workpath = os.path.dirname(os.path.abspath(__file__)) #Returns the Path your .py file is in
         datafile = os.path.join(workpath, 'dataset/spambase.data.txt')
         champs = [1, 2, 3]
@@ -144,7 +144,7 @@ class Test(unittest.TestCase):
     def testKMeanUpdate(self):
         print("** test KMean update **")
 
-        k = 3
+        k = 2
         workpath = os.path.dirname(os.path.abspath(__file__)) #Returns the Path your .py file is in
         datafile = os.path.join(workpath, 'dataset/spambase.data.txt')
         champs = [1, 2, 3]
