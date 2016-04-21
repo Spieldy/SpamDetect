@@ -172,9 +172,9 @@ class Test(unittest.TestCase):
                 try:
                     value = float(current_centroid[j])#for test that data is numeric
                     self.assertTrue(tmp/len(obs) == value, "current centroid: "+str(value)
-                                +"; actual centroid value: "+str(tmp/len(obs)))
+                                    +"; actual centroid value: "+str(tmp/len(obs)))
                 except ValueError:
-                        pass # field is not numeric
+                    pass # field is not numeric
 
     def testarray_equility(self):
         print("** test array equility **")
@@ -182,6 +182,38 @@ class Test(unittest.TestCase):
         a = [5.1, 3.5, 1.4, 0.2]
         b = [5.1, 3.5, 1.4, 0.2]
         self.assertTrue(a == b, "a not equal to b")
+
+    def testNormalize(self):
+        print("** test des valeurs normalisees **")
+        norm = Normalizer()
+        workpath = os.path.dirname(os.path.abspath(__file__)) #Returns the Path your .py file is in
+        datafile = os.path.join(workpath, 'dataset/spambase.data.txt')
+        data = norm.load_csv(datafile)
+        data = norm.normalization()
+        for l in data:
+            for c in l:
+                self.assertTrue((c >=0 and c<=1) , "les valeur ne sont pas entre 0 et 1")
+
+    def testStats(self):
+        print("** test des statistiques**")
+        norm = Normalizer()
+        workpath = os.path.dirname(os.path.abspath(__file__)) #Returns the Path your .py file is in
+        datafile = os.path.join(workpath, 'dataset/spambase.data.txt')
+        data = norm.load_csv(datafile)
+        data = norm.normalization()
+        normalizedData = norm.normalization()
+        normSplitedData = norm.split(normalizedData)
+        normNospams = normSplitedData[1]
+        normSpams = normSplitedData[0]
+        stat = norm.stats(normSpams,normNospams)
+        self.assertTrue(stat[0][0][57]==norm.truncate(1,5) , "Les stats des spams ne peuvent pas etre correctes : le minimum des spams n'est pas egal a 1 pour le dernier champ" + stat[0][0][57])
+        self.assertTrue(stat[0][1][57]==norm.truncate(1,5) , "Les stats des spams ne peuvent pas etre correctes : le maximum des spams n'est pas egal a 1 pour le dernier champ")
+        self.assertTrue(stat[0][2][57]==norm.truncate(1,5) , "Les stats des spams ne peuvent pas etre correctes : la moyenne des spams n'est pas egale a 1 pour le dernier champ")
+        self.assertTrue(stat[0][3][57]==norm.truncate(0,5) , "Les stats des spams ne peuvent pas etre correctes : la moyenne des spams n'est pas egale a 0 pour le dernier champ")
+        self.assertTrue(stat[1][0][57]==norm.truncate(0,5) , "Les stats des spams ne peuvent pas etre correctes : le minimum des spams n'est pas egal a 0 pour le dernier champ")
+        self.assertTrue(stat[1][1][57]==norm.truncate(0,5) , "Les stats des spams ne peuvent pas etre correctes : le maximum des spams n'est pas egal a 0 pour le dernier champ")
+        self.assertTrue(stat[1][2][57]==norm.truncate(0,5) , "Les stats des spams ne peuvent pas etre correctes : la moyenne des spams n'est pas egale a 0 pour le dernier champ")
+        self.assertTrue(stat[1][3][57]==norm.truncate(0,5) , "Les stats des spams ne peuvent pas etre correctes : la moyenne des spams n'est pas egale a 0 pour le dernier champ")
 
 if __name__ == "__main__":
     unittest.main()
