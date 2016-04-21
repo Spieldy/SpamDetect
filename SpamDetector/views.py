@@ -91,7 +91,7 @@ def index(request):
 
             stats_names = []
             stats_names = zip(nomChamp, new_stats)
-            return render(request, 'stats.html', {'data': stats_names, 'spam': stats[0], 'no_spam': no_spam})
+            return render(request, 'stats.html', {'data': stats_names})
     else:
         form = DocumentForm() # A empty, unbound form
         return render(request, 'index.html', {'form': form})
@@ -149,9 +149,9 @@ def extraction(request):
     workpath = os.path.dirname(os.path.abspath(__file__)) #Returns the Path your .py file is in
     datafile = os.path.join(workpath, 'dataset/spambase.data.txt')
     norm.load_csv(os.path.join(workpath, 'dataset/spambase.data.txt'))
-    N = 0
+    N = 1
     if request.method == 'GET':
-        if (int(request.GET['N']) >= 0 or int(request.GET['N'] <=100)):
+        if (int(request.GET['N']) > 0 or int(request.GET['N'] <=100)):
             N = int(request.GET['N'])
         kMeanClusterer.extraction_n(N)
         centroids = []
