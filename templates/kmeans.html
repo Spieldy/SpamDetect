@@ -1,13 +1,15 @@
 
-<div onload="graph({{ k }},{{ centroids }}, {{ clusters }}, {{ spams }}, {{ no_spams }})" id="container" style=" height: 500px;
+<div onload="graph({{ k }},{{ centroids }}, {{ clusters }}, {{ spams }}, {{ no_spams }}, {{ nomChamps }})" id="container" style=" height: 500px;
     min-width: 400px;
     max-width: 800px;
     margin: 0 auto;">
 </div>
 
 <script>
-    function graph(k, centroids, clusters, spams, no_spams) {
-        alert(spams);
+    function graph(k, centroids, clusters, spams, no_spams, nomChamps) {
+        var taille = clusters[0].length + clusters[1].length;
+        alert("Il y a "+ taille + " valeurs");
+
         if (k == 3) {
             $(function () {
 
@@ -63,31 +65,67 @@
                         }
                     },
                     yAxis: {
-                        min: -1,
-                        max: 10,
-                        title: null
+                        title: {
+                            enabled: true,
+                            text: nomChamps[1]
+                        },
+                        max: 6,
+                        min: 0
                     },
                     xAxis: {
-                        min: -1,
-                        max: 10,
-                        gridLineWidth: 1
+                        title: {
+                            enabled: true,
+                            text: nomChamps[0]
+                        },
+                        max: 6,
+                        min: 0
                     },
                     zAxis: {
-                        min: -1,
-                        max: 10,
-                        showFirstLabel: false
+                        title: {
+                            enabled: true,
+                            text: nomChamps[2]
+                        },
+                        max: 6,
+                        min: 0
                     },
                     legend: {
-                        enabled: false
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle',
+                        floating: true,
+                        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
+                        borderWidth: 1
                     },
                     series: [{
                         name: 'Spam',
                         colorByPoint: false,
+                        color: 'rgba(120, 176, 228, 0.3)',
+                        data: spams,
+                    }, {
+                        name: 'Non Spam',
+                        colorByPoint: false,
+                        color: 'rgba(41, 41, 46, 0.3)',
+                        data: no_spams
+                    }, {
+                        name: 'Cluster 1',
+                        colorByPoint: false,
+                        color: 'rgba(133, 221, 117, 0.6)',
                         data: clusters[0],
                     }, {
-                        name: 'Non spam',
+                        name: 'Cluster 2',
                         colorByPoint: false,
+                        color: 'rgba(232, 150, 85, 0.6)',
                         data: clusters[1]
+                    }, {
+                        name: 'Centroid 1',
+                        colorByPoint: false,
+                        color: 'rgba(110, 117, 211, 1)',
+                        data: [centroids[0]]
+                    }, {
+                        name: 'Centroid 2',
+                        colorByPoint: false,
+                        color: 'rgba(226, 81, 116, 1)',
+                        data: [centroids[1]]
                     }]
                 });
 
@@ -138,20 +176,20 @@
                     },
                     xAxis: {
                         title: {
-                            enabled: false,
-                            text: 'Height (cm)'
+                            enabled: true,
+                            text: nomChamps[0]
                         },
                     },
                     yAxis: {
                         title: {
-                            enabled: false,
-                            text: 'Weight (kg)'
+                            enabled: true,
+                            text: nomChamps[1]
                         },
                     },
                     legend: {
                         layout: 'vertical',
                         align: 'right',
-                        verticalAlign: 'left',
+                        verticalAlign: 'middle',
                         floating: true,
                         backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
                         borderWidth: 1
@@ -182,28 +220,28 @@
                     },
                     series: [{
                         name: 'Spams',
-                        color: 'rgba(178, 138, 0, 0.3)',
+                        color: 'rgba(120, 176, 228, 0.3)',
                         data: spams
                     }, {
                         name: 'Non Spams',
-                        color: 'rgba(0, 196, 25, 0.3)',
+                        color: 'rgba(41, 41, 46, 0.3)',
                         data: no_spams
                     },{
                         name: 'Cluster 1',
-                        color: 'rgba(178, 1, 0, 0.3)',
+                        color: 'rgba(133, 221, 117, 0.6)',
                         data: clusters[0]
 
                     }, {
                         name: 'Cluster 2',
-                        color: 'rgba(0, 36, 255, .3)',
+                        color: 'rgba(232, 150, 85, 0.6)',
                         data: clusters[1]
                     }, {
                         name: 'Centroid 1',
-                        color: 'rgba(255, 19, 255, 1)',
+                        color: 'rgba(110, 117, 211, 1)',
                         data: [centroids[0]]
                     }, {
                         name: 'Centroid 2',
-                        color: 'rgba(0, 223, 234, 1)',
+                        color: 'rgba(226, 81, 116, 1)',
                         data: [centroids[1]]
                     }]
                 });

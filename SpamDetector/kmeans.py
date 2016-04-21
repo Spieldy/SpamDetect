@@ -92,7 +92,7 @@ class KMeanClusterer(object) :
         if redo==1:
             self.assignement()
 
-    def garde_n_pproches(self, n):
+    def extraction_n(self, n):
         self.myTab = []
         n = 100.0-n
         for c in self.cluster:
@@ -110,6 +110,22 @@ class KMeanClusterer(object) :
                     self.myTab.append(i)
 
         self.assignement()
+
+    def get_splitedData(self,champs):
+        spams =[]
+        nospams = []
+        for j in range(len(self.myTab)):
+            ligne=[]
+            for k in champs:
+                ligne.append(self.myTab[j][k])
+            if(self.myTab[j][57]==1.0):
+                spams.append(ligne)
+            else:
+                nospams.append(ligne)
+        res =[]
+        res.append(spams)
+        res.append(nospams)
+        return res
 
 
 class Cluster(object) :
