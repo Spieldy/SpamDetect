@@ -149,10 +149,8 @@ def extraction(request):
     workpath = os.path.dirname(os.path.abspath(__file__)) #Returns the Path your .py file is in
     datafile = os.path.join(workpath, 'dataset/spambase.data.txt')
     norm.load_csv(os.path.join(workpath, 'dataset/spambase.data.txt'))
-    N = 1
     if request.method == 'GET':
-        if (int(request.GET['N']) > 0 and int(request.GET['N'] <=100)):
-            N = int(request.GET['N'])
+        N = int(request.GET['N'])
         kMeanClusterer.extraction_n(N)
         centroids = []
         clusters = []
