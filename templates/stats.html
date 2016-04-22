@@ -253,12 +253,13 @@
             type: 'text/css'
         }, null, document.getElementsByTagName('head')[0]);
 
+        $(function () {
             $('#container_charts').highcharts({
                 chart: {
                     type: 'column'
                 },
                 title: {
-                    text: 'Statistiques normalisées: '+ title
+                    text: 'Statistiques normalisées: ' + title
                 },
                 subtitle: {
                     text: 'Source: Spambase Hewlett Packard'
@@ -302,6 +303,7 @@
 
                 }]
             });
+        });
     }
 
 

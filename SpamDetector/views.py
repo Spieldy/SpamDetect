@@ -151,7 +151,7 @@ def extraction(request):
     norm.load_csv(os.path.join(workpath, 'dataset/spambase.data.txt'))
     N = 1
     if request.method == 'GET':
-        if (int(request.GET['N']) > 0 or int(request.GET['N'] <=100)):
+        if (int(request.GET['N']) > 0 and int(request.GET['N'] <=100)):
             N = int(request.GET['N'])
         kMeanClusterer.extraction_n(N)
         centroids = []
