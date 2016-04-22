@@ -23,13 +23,13 @@ class Test(unittest.TestCase):
 
         norm = Normalizer()
         data = norm.load_csv(datafile)
-        iris_data_matrix = []
+        data_matrix = []
         for line in data:
             try:
-                iris_data_matrix.append(line)
+                data_matrix.append(line)
             except IndexError:
                 pass
-        return len(iris_data_matrix)
+        return len(data_matrix)
 
     def testKMeanForcedInitialisation(self):
         print("** test KMean Initalisation **")
@@ -209,11 +209,11 @@ class Test(unittest.TestCase):
         self.assertTrue(stat[0][0][57]==norm.truncate(1,5) , "Les stats des spams ne peuvent pas etre correctes : le minimum des spams n'est pas egal a 1 pour le dernier champ" + stat[0][0][57])
         self.assertTrue(stat[0][1][57]==norm.truncate(1,5) , "Les stats des spams ne peuvent pas etre correctes : le maximum des spams n'est pas egal a 1 pour le dernier champ")
         self.assertTrue(stat[0][2][57]==norm.truncate(1,5) , "Les stats des spams ne peuvent pas etre correctes : la moyenne des spams n'est pas egale a 1 pour le dernier champ")
-        self.assertTrue(stat[0][3][57]==norm.truncate(0,5) , "Les stats des spams ne peuvent pas etre correctes : la moyenne des spams n'est pas egale a 0 pour le dernier champ")
-        self.assertTrue(stat[1][0][57]==norm.truncate(0,5) , "Les stats des spams ne peuvent pas etre correctes : le minimum des spams n'est pas egal a 0 pour le dernier champ")
-        self.assertTrue(stat[1][1][57]==norm.truncate(0,5) , "Les stats des spams ne peuvent pas etre correctes : le maximum des spams n'est pas egal a 0 pour le dernier champ")
-        self.assertTrue(stat[1][2][57]==norm.truncate(0,5) , "Les stats des spams ne peuvent pas etre correctes : la moyenne des spams n'est pas egale a 0 pour le dernier champ")
-        self.assertTrue(stat[1][3][57]==norm.truncate(0,5) , "Les stats des spams ne peuvent pas etre correctes : la moyenne des spams n'est pas egale a 0 pour le dernier champ")
+        self.assertTrue(stat[0][3][57]==norm.truncate(0,5) , "Les stats des spams ne peuvent pas etre correctes : l'ecart-type des spams n'est pas egale a 0 pour le dernier champ")
+        self.assertTrue(stat[1][0][57]==norm.truncate(0,5) , "Les stats des non spams ne peuvent pas etre correctes : le minimum des non spams n'est pas egal a 0 pour le dernier champ")
+        self.assertTrue(stat[1][1][57]==norm.truncate(0,5) , "Les stats des non spams ne peuvent pas etre correctes : le maximum des non spams n'est pas egal a 0 pour le dernier champ")
+        self.assertTrue(stat[1][2][57]==norm.truncate(0,5) , "Les stats des non spams ne peuvent pas etre correctes : la moyenne des non spams n'est pas egale a 0 pour le dernier champ")
+        self.assertTrue(stat[1][3][57]==norm.truncate(0,5) , "Les stats des non spams ne peuvent pas etre correctes : l'ecart-type des non spams n'est pas egale a 0 pour le dernier champ")
 
 if __name__ == "__main__":
     unittest.main()

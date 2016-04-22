@@ -33,6 +33,7 @@ class KMeanClusterer(object) :
     def getCluster(self,i):
         return self.cluster[i]
 
+    '''
     def initialisation(self):
         n = []
         for i in range(self.k):
@@ -43,6 +44,17 @@ class KMeanClusterer(object) :
             c = Cluster(self.myTab[nb])
             self.cluster.append(c)
             #print c.getCentroid()
+    '''
+
+    def initialisation(self):
+        n = []
+        for i in range(self.k):
+            nb = self.myTab[random.randint(0, len(self.myTab)-1)]
+            while n.__contains__(nb):
+                nb = self.myTab[random.randint(0, len(self.myTab)-1)]
+            n.append(nb)
+            c = Cluster(nb)
+            self.cluster.append(c)
 
     def computeDistance(self,obs,c):
         #calcul distance entre deux points sur 4 dimensions
